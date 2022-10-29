@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Map;
+
 public enum MapDirection {
     NORTH,
     SOUTH,
@@ -20,7 +22,7 @@ public enum MapDirection {
         return "";
     }
 
-    public Enum next(){
+    public MapDirection next(){
         switch (this) {
             case NORTH:
                 return EAST;
@@ -34,7 +36,7 @@ public enum MapDirection {
         return this;
     }
 
-    public Enum previous(){
+    public MapDirection previous(){
         switch (this) {
             case NORTH:
                 return WEST;
