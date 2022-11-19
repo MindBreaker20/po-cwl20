@@ -4,67 +4,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Vector2dTest {
-
-    @Test // Punkt 9 - testowanie orientacji zwierzęcia
-    void testAnimalDirection(){
-        Animal a1 = new Animal();
-        assertEquals(a1.mapDirection, MapDirection.NORTH);
-    }
-
-    @Test // Punkt 9 - testowanie czy zwierzę przemieszcza się na właściwe pozycje
-    void testRightVector(){
-        Animal a1 = new Animal(); // Przypadek 1 - zwierze idzie w prawo
-        MoveDirection m1 = MoveDirection.RIGHT;
-        MoveDirection m2 = MoveDirection.FORWARD;
-        Vector2d v1 = new Vector2d(3, 2);
-        a1.move(m1);
-        a1.move(m2);
-        assertTrue(a1.isAt(v1));
-
-        Animal a2 = new Animal(); // Przypadek 2 - zwierze idzie w lewo
-        MoveDirection m3 = MoveDirection.LEFT;
-        Vector2d v2 = new Vector2d(1, 2);
-        a2.move(m3);
-        a2.move(m2);
-        assertTrue(a2.isAt(v2));
-
-        Animal a3 = new Animal(); // Przypadek 3 - zwierze idzie do przodu
-        MoveDirection m4 = MoveDirection.FORWARD;
-        Vector2d v3 = new Vector2d(2, 3);
-        a3.move(m4);
-        assertTrue(a3.isAt(v3));
-
-        Animal a4 = new Animal(); // Przypadek 4 - zwierze idzie do dołu/ do tyłu
-        MoveDirection m5 = MoveDirection.BACKWARD;
-        Vector2d v4 = new Vector2d(2, 1);
-        a4.move(m5);
-        assertTrue(a4.isAt(v4));
-    }
-
-    @Test // Punkt 9 - testowanie czy zwierzę nie wychodzi poza mapę
-    void testOutOfMap(){
-        Animal a1 = new Animal();
-        MoveDirection m1 = MoveDirection.FORWARD;
-        Vector2d v1 = new Vector2d(2, 4);
-        a1.move(m1);
-        a1.move(m1);
-        a1.move(m1);
-        assertTrue(a1.isAt(v1));
-    }
-
-    @Test // Punkt 9 - czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
-    void testArrayInterpretation(){
-        Animal a1 = new Animal();
-        Vector2d v1 = new Vector2d(3, 3);
-        OptionsParser o1 = new OptionsParser();
-        String[] string_array = new String[]{"f", "forward", "a", "backward", "c", "right", "d", "f"};
-        MoveDirection[] move_direction_array = o1.parse(string_array);
-        for(int j = 0; j< move_direction_array.length; j++){
-            a1.move(move_direction_array[j]);
-        }
-        assertTrue(a1.isAt(v1));
-    }
-
     @Test
     void testEquals(){
         Vector2d v1 = new Vector2d(1, 3); // Przypadek 1 - pozycje sa sobie rowne
@@ -78,8 +17,9 @@ public class Vector2dTest {
 
     @Test
     void testToString(){
-        Vector2d v1 = new Vector2d(1, 3); // Przypadek 1 - czy stringi sa sobie rowne
-        assertEquals(v1.toString(), "(1,3)");
+        Vector2d v1 = new Vector2d(1, 3);
+        assertEquals(v1.toString(), "(1,3)"); // Przypadek 1 - czy stringi sa sobie rowne
+        assertNotEquals(v1.toString(),"(-1,3)"); // Przypadek 2 - czy stringi nie sa sobie rowne
     }
 
     @Test

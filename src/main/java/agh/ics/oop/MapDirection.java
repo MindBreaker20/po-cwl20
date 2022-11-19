@@ -22,6 +22,33 @@ public enum MapDirection {
         return "";
     }
 
+    public String getSymbol(){
+        switch (this) {
+            case NORTH:
+                return "N";
+            case SOUTH:
+                return "S";
+            case WEST:
+                return "W";
+            case EAST:
+                return "E";
+        }
+        return "";
+    }
+    public String getArrow(){
+        switch (this) {
+            case NORTH:
+                return "^";
+            case SOUTH:
+                return "v";
+            case WEST:
+                return "<";
+            case EAST:
+                return ">";
+        }
+        return "";
+    }
+
     public MapDirection next(){
         switch (this) {
             case NORTH:
@@ -33,7 +60,7 @@ public enum MapDirection {
             case EAST:
                 return SOUTH;
         }
-        return this;
+        return null;
     }
 
     public MapDirection previous(){
@@ -47,7 +74,7 @@ public enum MapDirection {
             case EAST:
                 return NORTH;
         }
-        return this;
+        return null;
     }
 
     public Vector2d toUnitVector(){
@@ -67,8 +94,7 @@ public enum MapDirection {
                 num1 = 1;
                 break;
         }
-        Vector2d new_vector = new Vector2d(num1, num2);
-        return new_vector;
+        return new Vector2d(num1, num2);
     }
 }
 

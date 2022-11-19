@@ -1,43 +1,61 @@
 package agh.ics.oop;
 
-public class Animal {
-    private MapDirection mapdirection = MapDirection.NORTH;
-    private Vector2d position = new Vector2d(2,2);
-    public MapDirection mapDirection = mapdirection; // dostęp do wartosci prywatnego atrybutu na potrzeby testów z punktu 9
-    public Vector2d Position = position;
+public class Animal{
+    private MapDirection mapDirection;
+    private Vector2d position;
+    private IWorldMap map;
+    public Animal(){
+        this.mapDirection = MapDirection.NORTH;
+        this.position = new Vector2d(2,2);
+    }
+    public Animal(IWorldMap map){
+        this(map, new Vector2d(2,2)); // uproszczenie konstruktorów za pomocą this()
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.mapDirection = MapDirection.NORTH;
+        this.position = initialPosition;
+        this.map = map;
+    }
 
     public String toString(){
-        return "(" + this.position.x + "," + this.position.y + ") " + this.mapdirection;
+        //return "(" + this.position.x + "," + this.position.y + ") " + this.mapDirection;
+        return this.mapDirection.getSymbol();
     }
 
     public boolean isAt(Vector2d position){
-        if(this.position.equals(position)==true){
-            return true;
-        }
-        return false;
+        return this.position.equals(position);
     }
     public void move(MoveDirection direction){
-        Vector2d position_0_0 = new Vector2d(0, 0);
-        Vector2d position_4_4 = new Vector2d(4, 4);
-
         if(direction == MoveDirection.RIGHT){
-            mapdirection = mapdirection.next();
+            this.mapDirection = mapDirection.next();
         }
         else if(direction == MoveDirection.LEFT){
-            mapdirection = mapdirection.previous();
+            this.mapDirection = mapDirection.previous();
         }
         else if(direction == MoveDirection.FORWARD){
-            Vector2d new_position = position.add(mapdirection.toUnitVector());
-            if(new_position.precedes(position_4_4) == true){
-                position = new_position;
+            Vector2d newPosition = position.add(mapDirection.toUnitVector());
+            // if(newPosition.precedes(new Vector2d(4,4)) & newPosition.follows(new Vector2d(0,0)))
+            if(map.canMoveTo(newPosition)){
+                this.position = newPosition;
             }
         }
         else if(direction == MoveDirection.BACKWARD){
-            Vector2d new_position = position.subtract(mapdirection.toUnitVector());
-            if(new_position.follows(position_0_0) == true){
-                position = new_position;
+            Vector2d newPosition = position.subtract(mapDirection.toUnitVector());
+            // if(newPosition.precedes(new Vector2d(4,4)) & newPosition.follows(new Vector2d(0,0)))
+            if(map.canMoveTo(newPosition)){
+                this.position = newPosition;
             }
         }
     }
+
+    public MapDirection getDirection(){
+        return this.mapDirection;
+    }
+
+    public Vector2d getPosition(){
+        return this.position;
+    }
+
 
 }

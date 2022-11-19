@@ -16,7 +16,6 @@ public class OptionsParser {
                 new_list.add(MoveDirection.LEFT);
             }
         }
-        MoveDirection[] new_array = new_list.toArray(new MoveDirection[0]);
-        return new_array;
+        return new_list.toArray(new MoveDirection[0]);
     }
 }
