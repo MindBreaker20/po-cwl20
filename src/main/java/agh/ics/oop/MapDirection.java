@@ -22,7 +22,7 @@ public enum MapDirection {
         return "";
     }
 
-    public String getSymbol(){
+    public String Abbreviation(){
         switch (this) {
             case NORTH:
                 return "N";
@@ -35,7 +35,7 @@ public enum MapDirection {
         }
         return "";
     }
-    public String getArrow(){
+    public String Arrow(){
         switch (this) {
             case NORTH:
                 return "^";

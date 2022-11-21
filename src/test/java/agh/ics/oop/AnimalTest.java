@@ -4,35 +4,24 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AnimalIntegrationTest {
-    @Test // Punkt 7 - testowanie poprawnosci implementacji mapy
-    public void testMap(){
-        MoveDirection[] directions = new OptionsParser().parse("f b r l f f r r f f f f f f f f".split(" "));
-        IWorldMap map = new RectangularMap(10, 5);
-        Vector2d[] initialPositions = { new Vector2d(2,2), new Vector2d(3,4) };
-        SimulationEngine engine = new SimulationEngine(directions, map, initialPositions);
-        engine.run();
-        assertTrue(engine.getAnimal(0).isAt(new Vector2d(2, 2)));
-        assertTrue(engine.getAnimal(1).isAt(new Vector2d(3, 4)));
-    }
-
-    @Test // Punkt 9 - testowanie orientacji zwierzęcia
+public class AnimalTest { // Lab 3 - testy integracyjne
+    @Test // Lab3 - Punkt 9 - testowanie orientacji zwierzęcia
     public void testOrientation(){
         Animal a1 = new Animal();
-        assertEquals(a1.getDirection(), MapDirection.NORTH);
+        assertEquals(a1.getMapDirection(), MapDirection.NORTH);
         a1.move(MoveDirection.LEFT);
-        assertEquals(a1.getDirection(), MapDirection.WEST);
+        assertEquals(a1.getMapDirection(), MapDirection.WEST);
         a1.move(MoveDirection.RIGHT);
-        assertEquals(a1.getDirection(),MapDirection.NORTH);
+        assertEquals(a1.getMapDirection(),MapDirection.NORTH);
         a1.move(MoveDirection.RIGHT);
-        assertEquals(a1.getDirection(), MapDirection.EAST);
+        assertEquals(a1.getMapDirection(), MapDirection.EAST);
         a1.move(MoveDirection.RIGHT);
-        assertEquals(a1.getDirection(), MapDirection.SOUTH);
+        assertEquals(a1.getMapDirection(), MapDirection.SOUTH);
     }
 
-    @Test // Punkt 9 - testowanie czy zwierzę przemieszcza się na właściwe pozycje i czy nie ywchodzi poza mape
+    @Test // Lab3 - Punkt 9 - testowanie czy zwierzę przemieszcza się na właściwe pozycje i czy nie ywchodzi poza mape
     public void testPosition(){
-        Animal a1 = new Animal();
+        Animal a1 = new Animal(); // Od lab4 używa canMoveTo IWorldMap dlatego tu już nie bedzie dizalac
         assertTrue(a1.isAt(new Vector2d(2,2)));
         a1.move(MoveDirection.FORWARD);
         assertTrue(a1.isAt(new Vector2d(2,3)));
@@ -71,7 +60,7 @@ public class AnimalIntegrationTest {
         assertTrue(a1.isAt(new Vector2d(4,0))); // Sprawdzanie czy nie przekracza prawej granicy mapy
     }
 
-    @Test // Punkt 9 - czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
+    @Test // Lab3 - Punkt 9 - czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
     void testParser(){
         Animal a1 = new Animal();
         OptionsParser o1 = new OptionsParser();

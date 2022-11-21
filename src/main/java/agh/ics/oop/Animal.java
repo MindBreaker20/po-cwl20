@@ -20,7 +20,7 @@ public class Animal{
 
     public String toString(){
         //return "(" + this.position.x + "," + this.position.y + ") " + this.mapDirection;
-        return this.mapDirection.getSymbol();
+        return this.mapDirection.Abbreviation();
     }
 
     public boolean isAt(Vector2d position){
@@ -49,7 +49,7 @@ public class Animal{
         }
     }
 
-    public MapDirection getDirection(){
+    public MapDirection getMapDirection(){
         return this.mapDirection;
     }
 
@@ -57,5 +57,5 @@ public class Animal{
         return this.position;
     }
 
-
 }
+
