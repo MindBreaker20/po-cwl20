@@ -4,20 +4,23 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.Map;
+import java.util.HashMap;
 
 public class GrassField extends AbstractWorldMap{
-    private List<Grass> grasses;
+
+    private Map<Vector2d, Grass> grasses;
 
     public GrassField(int n){
         super();
-        this.grasses = new ArrayList<>();
+        this.grasses = new HashMap<>();
 
         for(int i = 0; i < n; i++){ // Randomowe umiesczanie trawy
             int x = (int)(Math.random() * (Math.sqrt(n * 10)));
             int y = (int)(Math.random() * (Math.sqrt(n * 10)));
             if (!isOccupied(new Vector2d(x, y))){
                 Grass g = new Grass(this, new Vector2d(x, y));
-                this.grasses.add(g);
+                this.grasses.put(new Vector2d(x, y), g);
                 break;
             }
         }

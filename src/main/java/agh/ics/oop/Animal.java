@@ -1,15 +1,11 @@
 package agh.ics.oop;
 
-public class Animal extends AbstractWorldMapElement{
+import java.util.List;
+import java.util.ArrayList;
+
+public class Animal extends AbstractWorldMapElement implements IObserverEnabler{
     private MapDirection mapDirection;
-
-//    private Vector2d position;
-//    private IWorldMap map;
-
-//    public Animal(){
-//        this.mapDirection = MapDirection.NORTH;
-//        this.position = new Vector2d(2,2);
-//    }
+    private final List<IPositionChangeObserver> observers;
 
     public Animal(IWorldMap map){
         this(map, new Vector2d(2,2)); // uproszczenie konstruktorów za pomocą this()
@@ -18,12 +14,10 @@ public class Animal extends AbstractWorldMapElement{
     public Animal(IWorldMap map, Vector2d initialPosition){
         super(map, initialPosition);
         this.mapDirection = MapDirection.NORTH;
-//        this.position = initialPosition;
-//        this.map = map;
+        this.observers = new ArrayList<>();
     }
 
     public String toString(){
-        //return "(" + this.position.x + "," + this.position.y + ") " + this.mapDirection;
         return this.mapDirection.Abbreviation();
     }
 
@@ -40,15 +34,15 @@ public class Animal extends AbstractWorldMapElement{
         }
         else if(direction == MoveDirection.FORWARD){
             Vector2d newPosition = position.add(mapDirection.toUnitVector());
-            // if(newPosition.precedes(new Vector2d(4,4)) & newPosition.follows(new Vector2d(0,0)))
             if(map.canMoveTo(newPosition)){
+                positionChanged(this.position, newPosition);
                 this.position = newPosition;
             }
         }
         else if(direction == MoveDirection.BACKWARD){
             Vector2d newPosition = position.subtract(mapDirection.toUnitVector());
-            // if(newPosition.precedes(new Vector2d(4,4)) & newPosition.follows(new Vector2d(0,0)))
             if(map.canMoveTo(newPosition)){
+                positionChanged(this.position, newPosition);
                 this.position = newPosition;
             }
         }
@@ -58,9 +52,23 @@ public class Animal extends AbstractWorldMapElement{
         return this.mapDirection;
     }
 
-//    public Vector2d getPosition(){
-//        return this.position;
-//    }
+    @Override
+    public void addObserver(IPositionChangeObserver observer){
+        if(!this.observers.contains(observer)){
+            this.observers.add(observer);
+        }
+    }
+
+    @Override
+    public void removeObserver(IPositionChangeObserver observer){
+        this.observers.remove(observer);
+    }
+
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        for(int i = 0; i < this.observers.size(); i++){
+            this.observers.get(i).positionChanged(oldPosition, newPosition);
+        }
+    }
 
 }
 

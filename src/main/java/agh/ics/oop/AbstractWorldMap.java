@@ -3,14 +3,21 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
-public abstract class AbstractWorldMap implements IWorldMap{
-    protected List<Animal> animals;
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+    protected Map<Vector2d, Animal> animals;
     private final MapVisualizer visualizer;
 
     public AbstractWorldMap(){
-        this.animals = new ArrayList<>();
+        this.animals = new HashMap<>();
         this.visualizer = new MapVisualizer(this);
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        Animal animal = this.animals.get(oldPosition); // uzyskanie obiektu zwierzę po kluczu stara pozycja
+        this.animals.remove(oldPosition); // usuniecie zwierzecia po starym kluczu
+        this.animals.put(newPosition, animal); // dodanie zwierzecia z nowym kluczem (pozycja)
     }
 
     @Override
@@ -24,7 +31,8 @@ public abstract class AbstractWorldMap implements IWorldMap{
     @Override
     public boolean place(Animal animal){
         if (!isOccupied(animal.getPosition())){
-            this.animals.add(animal);
+            this.animals.put(animal.getPosition(), animal);
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -32,13 +40,7 @@ public abstract class AbstractWorldMap implements IWorldMap{
 
     @Override
     public Object objectAt(Vector2d position){
-        for (int i = 0; i < this.animals.size(); i++){
-            Animal animal = animals.get(i);
-            if (animal.isAt(position)){
-                return animal;
-            }
-        }
-        return null;
+        return this.animals.get(position);
     }
 
     @Override
@@ -46,7 +48,7 @@ public abstract class AbstractWorldMap implements IWorldMap{
         return visualizer.draw(getLowerLeft(), getUpperRight());
     }
 
-    public List<Animal> getAnimals(){ // getter używany w klasie GrasssField do szukania skrajnych punktów zwierząt i traw
+    public Map<Vector2d, Animal> getAnimals(){ // getter używany w klasie GrasssField do szukania skrajnych punktów zwierząt i traw
         return this.animals;
     }
 
