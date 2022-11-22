@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AnimalTest { // Lab 3 - testy integracyjne
     @Test // Lab3 - Punkt 9 - testowanie orientacji zwierzęcia
     public void testOrientation(){
-        Animal a1 = new Animal();
+        // Animal a1 = new Animal();// Od lab4 używa canMoveTo IWorldMap dlatego tu już nie bedzie dizalac
+        Animal a1 = new Animal(new RectangularMap(5, 5)); // Od lab 5
         assertEquals(a1.getMapDirection(), MapDirection.NORTH);
         a1.move(MoveDirection.LEFT);
         assertEquals(a1.getMapDirection(), MapDirection.WEST);
@@ -21,7 +22,8 @@ public class AnimalTest { // Lab 3 - testy integracyjne
 
     @Test // Lab3 - Punkt 9 - testowanie czy zwierzę przemieszcza się na właściwe pozycje i czy nie ywchodzi poza mape
     public void testPosition(){
-        Animal a1 = new Animal(); // Od lab4 używa canMoveTo IWorldMap dlatego tu już nie bedzie dizalac
+        //Animal a1 = new Animal();
+        Animal a1 = new Animal(new RectangularMap(5, 5)); // Od lab 5
         assertTrue(a1.isAt(new Vector2d(2,2)));
         a1.move(MoveDirection.FORWARD);
         assertTrue(a1.isAt(new Vector2d(2,3)));
@@ -62,7 +64,8 @@ public class AnimalTest { // Lab 3 - testy integracyjne
 
     @Test // Lab3 - Punkt 9 - czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
     void testParser(){
-        Animal a1 = new Animal();
+        //Animal a1 = new Animal();
+        Animal a1 = new Animal(new RectangularMap(5, 5)); // Od lab 5
         OptionsParser o1 = new OptionsParser();
         String[] string_array = new String[]{"f", "forward", "a", "backward", "c", "right", "d", "f"};
         MoveDirection[] move_direction_array = o1.parse(string_array);

@@ -1,21 +1,25 @@
 package agh.ics.oop;
 
-public class Animal{
+public class Animal extends AbstractWorldMapElement{
     private MapDirection mapDirection;
-    private Vector2d position;
-    private IWorldMap map;
-    public Animal(){
-        this.mapDirection = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
-    }
+
+//    private Vector2d position;
+//    private IWorldMap map;
+
+//    public Animal(){
+//        this.mapDirection = MapDirection.NORTH;
+//        this.position = new Vector2d(2,2);
+//    }
+
     public Animal(IWorldMap map){
         this(map, new Vector2d(2,2)); // uproszczenie konstruktorów za pomocą this()
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
+        super(map, initialPosition);
         this.mapDirection = MapDirection.NORTH;
-        this.position = initialPosition;
-        this.map = map;
+//        this.position = initialPosition;
+//        this.map = map;
     }
 
     public String toString(){
@@ -26,6 +30,7 @@ public class Animal{
     public boolean isAt(Vector2d position){
         return this.position.equals(position);
     }
+
     public void move(MoveDirection direction){
         if(direction == MoveDirection.RIGHT){
             this.mapDirection = mapDirection.next();
@@ -53,9 +58,9 @@ public class Animal{
         return this.mapDirection;
     }
 
-    public Vector2d getPosition(){
-        return this.position;
-    }
+//    public Vector2d getPosition(){
+//        return this.position;
+//    }
 
 }
 
