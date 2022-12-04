@@ -8,20 +8,21 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class GrassField extends AbstractWorldMap{
-
+    private final MapBoundary mapBoundary;
     private Map<Vector2d, Grass> grasses;
 
     public GrassField(int n){
         super();
         this.grasses = new HashMap<>();
+        this.mapBoundary = new MapBoundary();
 
         for(int i = 0; i < n; i++){ // Randomowe umiesczanie trawy
             int x = (int)(Math.random() * (Math.sqrt(n * 10)));
             int y = (int)(Math.random() * (Math.sqrt(n * 10)));
             if (!isOccupied(new Vector2d(x, y))){
-                Grass g = new Grass(this, new Vector2d(x, y));
-                this.grasses.put(new Vector2d(x, y), g);
-                break;
+                Grass grass = new Grass(this, new Vector2d(x, y));
+                this.grasses.put(new Vector2d(x, y), grass);
+                this.mapBoundary.addGrass(grass);
             }
         }
     }
@@ -36,34 +37,18 @@ public class GrassField extends AbstractWorldMap{
     }
 
     //  Rysowanie fragmentu mapy, na którym znajdują się wszystkie elementy (zwierzęta oraz trawa). Dynamiczne obliczaie skrajnych punktów
-    protected Vector2d getLowerLeft(){ // Metoda zwracająca minimlany dolny lewy punkt
-        Vector2d lowerLeft = super.getAnimals().get(0).getPosition();
-        for(int i = 0; i < super.getAnimals().size(); i++){
-            if (super.getAnimals().get(i).getPosition().precedes(lowerLeft)){ // Sprawdzanie czy badana pozycja zwierzecia jest mniejsza od dotychczasowej
-                lowerLeft = super.getAnimals().get(i).getPosition();
-            }
-        }
-        for(int j = 0; j < this.grasses.size(); j++){
-            if (this.grasses.get(j).getPosition().precedes(lowerLeft)){ // Sprawdzanie czy badana pozycja trawy jest mniejsza od zwierzecej
-                lowerLeft = this.grasses.get(j).getPosition();
-            }
-        }
-        return lowerLeft;
+    @Override
+    public Vector2d getLowerLeft(){ // Metoda zwracająca minimlany dolny lewy punkt
+        return this.mapBoundary.getLowerLeft();
     }
 
-    protected Vector2d getUpperRight(){ // Metoda zwracająca maksymalny górny prawy punkt
-        Vector2d upperRight = super.getAnimals().get(0).getPosition();
-        for(int i = 0; i < super.getAnimals().size(); i++){
-            if (super.getAnimals().get(i).getPosition().follows(upperRight)){ // Sprawdzanie czy badana pozycja zwierzecia jest wieksza od dotychczasowej
-                upperRight = super.getAnimals().get(i).getPosition();
-            }
-        }
-        for(int j = 0; j < this.grasses.size(); j++){
-            if (this.grasses.get(j).getPosition().follows(upperRight)){ // Sprawdzanie czy badana pozycja trawy jest większa od zwierzecej
-                upperRight = this.grasses.get(j).getPosition();
-            }
-        }
-        return upperRight;
+    @Override
+    public Vector2d getUpperRight(){ // Metoda zwracająca maksymalny górny prawy punkt
+        return this.mapBoundary.getUpperRight();
     }
 
+    @Override
+    public Map<Vector2d, Grass> getGrasses(){
+        return this.grasses;
+    }
 }

@@ -19,7 +19,8 @@ public class RectangularMapTest {
     public void testPlace(){
         RectangularMap map = new RectangularMap(10, 5);
         assertTrue(map.place(new Animal(map, new Vector2d(2, 3))));
-        assertFalse(map.place(new Animal(map, new Vector2d(2, 3))));
+        //assertFalse(map.place(new Animal(map, new Vector2d(2, 3))));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map, new Vector2d(2, 3)))); // Od lab 7
     }
 
     @Test

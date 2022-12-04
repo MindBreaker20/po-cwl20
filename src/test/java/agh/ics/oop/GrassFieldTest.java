@@ -17,6 +17,13 @@ public class GrassFieldTest {
     }
 
     @Test
+    public void testPlace(){
+        GrassField map = new GrassField(5);
+        map.place(new Animal(map, new Vector2d(2, 3)));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map, new Vector2d(2, 3))));
+    }
+
+    @Test
     public void testIsOccupied(){
         GrassField map = new GrassField(5);
         assertTrue(map.place(new Animal(map, new Vector2d(2, 3))));

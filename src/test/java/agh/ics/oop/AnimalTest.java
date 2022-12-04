@@ -2,6 +2,8 @@ package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AnimalTest { // Lab 3 - testy integracyjne
@@ -64,14 +66,8 @@ public class AnimalTest { // Lab 3 - testy integracyjne
 
     @Test // Lab3 - Punkt 9 - czy dane wejściowe podane jako tablica łańcuchów znaków są poprawnie interpretowane.
     void testParser(){
-        //Animal a1 = new Animal();
         Animal a1 = new Animal(new RectangularMap(5, 5)); // Od lab 5
-        OptionsParser o1 = new OptionsParser();
-        String[] string_array = new String[]{"f", "forward", "a", "backward", "c", "right", "d", "f"};
-        MoveDirection[] move_direction_array = o1.parse(string_array);
-        for(int j = 0; j< move_direction_array.length; j++){
-            a1.move(move_direction_array[j]);
-        }
-        assertTrue(a1.isAt(new Vector2d(3,3)));
+        List<String> args = Arrays.asList("f", "forward", "a", "backward", "c", "right", "d", "f");
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(args)); // Od lab 7
     }
 }
