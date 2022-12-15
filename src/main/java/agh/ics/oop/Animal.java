@@ -64,6 +64,29 @@ public class Animal extends AbstractWorldMapElement implements IObserverEnabler{
         this.observers.remove(observer);
     }
 
+    @Override
+    public String getResourceName(){
+        String name = "";
+        if(this.mapDirection.Abbreviation().equals("N")){
+            name = "up";
+        }
+        else if(this.mapDirection.Abbreviation().equals("E")){
+            name = "right";
+        }
+        else if(this.mapDirection.Abbreviation().equals("S")){
+            name = "down";
+        }
+        else if(this.mapDirection.Abbreviation().equals("W")){
+            name = "left";
+        }
+        return name;
+    }
+
+    @Override
+    public String getName(){
+        return position.toString();
+    }
+
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for(int i = 0; i < this.observers.size(); i++){
             this.observers.get(i).positionChanged(oldPosition, newPosition);

@@ -8,12 +8,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class GrassField extends AbstractWorldMap{
-    private final MapBoundary mapBoundary;
-    private Map<Vector2d, Grass> grasses;
+    private MapBoundary mapBoundary;
 
     public GrassField(int n){
         super();
-        this.grasses = new HashMap<>();
         this.mapBoundary = new MapBoundary();
 
         for(int i = 0; i < n; i++){ // Randomowe umiesczanie trawy
@@ -21,19 +19,9 @@ public class GrassField extends AbstractWorldMap{
             int y = (int)(Math.random() * (Math.sqrt(n * 10)));
             if (!isOccupied(new Vector2d(x, y))){
                 Grass grass = new Grass(this, new Vector2d(x, y));
-                this.grasses.put(new Vector2d(x, y), grass);
-                this.mapBoundary.addGrass(grass);
+                place(grass);
             }
         }
-    }
-
-    @Override // Umożliwia nieograniczone poruszanie się zwierzęcia po mapie, pod warunkiem, że nie wchodzi na inne zwierzę - rozmiar mapy ma być "nieskończony"
-    public boolean canMoveTo(Vector2d position){
-        if (!isOccupied(position) & position.precedes(new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE))
-                & position.follows(new Vector2d(0, 0))){
-            return true;
-        }
-        return false;
     }
 
     //  Rysowanie fragmentu mapy, na którym znajdują się wszystkie elementy (zwierzęta oraz trawa). Dynamiczne obliczaie skrajnych punktów
@@ -48,7 +36,16 @@ public class GrassField extends AbstractWorldMap{
     }
 
     @Override
-    public Map<Vector2d, Grass> getGrasses(){
-        return this.grasses;
+    public boolean place(IMapElement element){
+        if(super.place(element)){
+            if(element instanceof IObserverEnabler) {
+                ((IObserverEnabler) element).addObserver(mapBoundary);
+            }
+            mapBoundary.addElement(element);
+            return true;
+
+        }
+        return false;
     }
+
 }

@@ -14,16 +14,9 @@ public class MapBoundary implements IPositionChangeObserver{
         this.sortedListY = new LinkedList<>();
     }
 
-    public void addAnimal(Animal animal){
-        this.sortedListX.add(animal.getPosition());
-        this.sortedListY.add(animal.getPosition());
-        this.sortedListX.sort(Comparator.comparing(Vector2d::getX));
-        this.sortedListY.sort(Comparator.comparing(Vector2d::getY));
-    }
-
-    public void addGrass(Grass grass){
-        this.sortedListX.add(grass.getPosition());
-        this.sortedListY.add(grass.getPosition());
+    public void addElement(IMapElement element){
+        this.sortedListX.add(element.getPosition());
+        this.sortedListY.add(element.getPosition());
         this.sortedListX.sort(Comparator.comparing(Vector2d::getX));
         this.sortedListY.sort(Comparator.comparing(Vector2d::getY));
     }

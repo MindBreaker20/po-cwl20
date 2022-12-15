@@ -14,4 +14,9 @@ public abstract class AbstractWorldMapElement implements IMapElement{
         return this.position;
     }
 
+    @Override
+    public boolean isAt(Vector2d position){
+        return  this.position.equals(position);
+    }
+
 }
